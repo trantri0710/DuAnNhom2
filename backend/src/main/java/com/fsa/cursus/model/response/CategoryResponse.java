@@ -10,5 +10,5 @@ import java.io.Serializable;
 public class CategoryResponse implements Serializable {
     private int categoryId;
     private String categoryName;
-    private Boolean categoryStatus;
+    private String categoryStatus;
 }

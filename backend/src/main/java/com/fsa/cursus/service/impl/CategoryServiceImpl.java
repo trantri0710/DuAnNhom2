@@ -1,5 +1,4 @@
-package com.fsa.cursus.service.impl;
-
+package com.fsa.cursus.service.Impl;
 import com.fsa.cursus.model.entity.Category;
 import com.fsa.cursus.model.request.CategoryRequest;
 import com.fsa.cursus.repository.CategoryRepository;
@@ -24,7 +23,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         category.setCategoryName(categoryRequest.getCategoryName());
-        category.setCategoryStatus(categoryRequest.isCategoryStatus());
+        category.setCategoryStatus(categoryRequest.getCategoryStatus());
 
 
 
