@@ -14,22 +14,22 @@ import java.util.List;
 @Table(name = "chapters")
 public class Chapter implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "chapter_id")
-    private Long chapterId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "chapter_id")
+  private Long chapterId;
 
-    @Column(name = "title", nullable = false, length = 100)
-    private String title;
+  @Column(name = "title", nullable = false, length = 100)
+  private String title;
 
-    @Column(name = "description", length = 500)
-    private String description;
+  @Column(name = "description", length = 500)
+  private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "course_id")  // Khóa ngoại liên kết với bảng Course
-    private Course course;
+  @ManyToOne
+  @JoinColumn(name = "course_id")  // Khóa ngoại liên kết với bảng Course
+  private Course course;
 
-    @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Lesson> lessons = new ArrayList<>();  // Một chương có nhiều bài học
+  @OneToMany(mappedBy = "chapter", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+  private List<Lesson> lessons = new ArrayList<>();  // Một chương có nhiều bài học
 
 }
