@@ -14,21 +14,20 @@ import java.util.List;
 @Table(name = "category")
 public class Category {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "category_id")
-    private int categoryId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "category_id")
+  private int categoryId;
 
-    @Column(name = "category_name")
-    private String categoryName;
+  @Column(name = "category_name")
+  private String categoryName;
 
-    @Column(name = "category_status")
-    private String categoryStatus;
+  @Column(name = "category_status")
+  private String categoryStatus;
 
-    /*
-    * Relationship
-    * */
-
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Course> courseList = new ArrayList<Course>();
+  /*
+   * Relationship
+   * */
+  @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Course> courseList = new ArrayList<Course>();
 }

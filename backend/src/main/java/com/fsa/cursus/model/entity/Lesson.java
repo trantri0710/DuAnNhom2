@@ -12,25 +12,25 @@ import java.io.Serializable;
 @Table(name = "lessons")
 public class Lesson implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "lesson_id")
-    private Long lessonId;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "lesson_id")
+  private Long lessonId;
 
-    @Column(name = "title", nullable = false, length = 100)
-    private String title;
+  @Column(name = "title", nullable = false, length = 100)
+  private String title;
 
-    @Column(name = "content", columnDefinition = "MEDIUMTEXT")
-    private String content;
+  @Column(name = "content", columnDefinition = "MEDIUMTEXT")
+  private String content;
 
-    @Column(name = "video")
-    private String video;
+  @Column(name = "video")
+  private String video;
 
-    @Column(name = "duration")  // Đơn vị: phút
-    private int duration;
+  @Column(name = "duration")  // Đơn vị: phút
+  private int duration;
 
-    @ManyToOne
-    @JoinColumn(name = "chapter_id")  // Khóa ngoại liên kết với bảng Chapter
-    private Chapter chapter;
+  @ManyToOne
+  @JoinColumn(name = "chapter_id")  // Khóa ngoại liên kết với bảng Chapter
+  private Chapter chapter;
 
 }
