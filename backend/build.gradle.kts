@@ -33,6 +33,16 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
+	implementation("org.springdoc:springdoc-openapi-data-rest:1.7.0")
+//	implementation("org.springdoc:springdoc-openapi-security:1.7.0")
+//	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("io.jsonwebtoken:jjwt-api:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+
 }
 
 tasks.withType<Test> {
