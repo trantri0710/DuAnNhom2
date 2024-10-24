@@ -38,9 +38,14 @@ dependencies {
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.12.6")
 	runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.12.6")
 	implementation("org.springframework.boot:spring-boot-starter-security")
-	implementation("org.springdoc:springdoc-openapi-ui:1.7.0")
-	implementation("org.springdoc:springdoc-openapi-data-rest:1.7.0")
-	implementation("org.springdoc:springdoc-openapi-security:1.7.0")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0")
+	testImplementation("org.springframework.security:spring-security-test:6.3.4")
+	implementation("org.springframework.boot:spring-boot-starter-security:3.3.4")
+	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE")
+
+//	implementation("org.springdoc:springdoc-openapi-data-rest:1.7.0")
+//	implementation("org.springdoc:springdoc-openapi-security:1.7.0")
+
 }
 
 tasks.withType<Test> {

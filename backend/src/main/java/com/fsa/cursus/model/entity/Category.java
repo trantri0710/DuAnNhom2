@@ -23,7 +23,7 @@ public class Category {
   private String categoryName;
 
   @Column(name = "category_status")
-  private String categoryStatus;
+  private Boolean categoryStatus;
 
   /*
    * Relationship
