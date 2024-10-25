@@ -1,13 +1,10 @@
-package com.fsa.cursus.service.Impl;
+package com.fsa.cursus.service.impl;
 import com.fsa.cursus.model.entity.Category;
 import com.fsa.cursus.model.request.CategoryRequest;
 import com.fsa.cursus.repository.CategoryRepository;
 import com.fsa.cursus.service.CategoryService;
-import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {

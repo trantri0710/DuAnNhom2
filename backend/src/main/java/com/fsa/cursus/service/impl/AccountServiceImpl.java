@@ -1,4 +1,4 @@
-package com.fsa.cursus.service.Impl;
+package com.fsa.cursus.service.impl;
 
 import com.fsa.cursus.model.entity.Account;
 import com.fsa.cursus.repository.AccountRepository;
