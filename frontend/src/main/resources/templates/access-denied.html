@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Admin LTE 3 | Access Denied</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 mt-5">
+            <h3 class="text-center">Access Denied Page</h3>
+            <hr>
+        </div>
+
+        <div class="col-md-12 mt-3 d-flex justify-content-center align-items-center">
+            <div class="col-md-6 mt-3 text-center d-flex flex-column justify-content-center align-items-center">
+                <div class="alert alert-danger" role="alert">
+                    Sorry, you do not have permission to access this resource. Please check your permissions or contact
+                    the system administrator for assistance.
+                </div>
+
+                <img width="200" height="auto" th:src="@{/img/access-denied.png}">
+
+                <a href="/home" class="btn btn-primary text-center mt-3">Go to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
