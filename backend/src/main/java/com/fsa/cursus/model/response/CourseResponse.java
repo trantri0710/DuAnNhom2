@@ -1,16 +1,13 @@
-package com.fsa.cursus.model.request;
+package com.fsa.cursus.model.response;
 
-import jakarta.validation.constraints.NotBlank;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serializable;
-
-@Getter
 @Setter
-public class CourseRequest implements Serializable {
-
-    // Khoá Học
+@Getter
+public class CourseResponse {
     private Long courseId;
     private String name;
     private String description;
@@ -19,5 +16,6 @@ public class CourseRequest implements Serializable {
     private int totalDuration;
     private double price;
 
-    private Long teacherId;
+    private AccountResponse account;
+    private CategoryResponse category;
 }
