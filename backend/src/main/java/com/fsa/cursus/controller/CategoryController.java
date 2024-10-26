@@ -33,7 +33,7 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse> updateAccount(@PathVariable int id, @RequestBody CategoryRequest categoryRequest) {
+    public ResponseEntity<ApiResponse> updateAccount(@PathVariable Long id, @RequestBody CategoryRequest categoryRequest) {
         Category updatedCategory = categoryService.getCategoryById(id);
 
         if (updatedCategory == null) {
@@ -54,7 +54,7 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable int id) {
+    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Long id) {
         ApiResponse apiResponse = new ApiResponse();
 
         Category category = categoryService.getCategoryById(id);

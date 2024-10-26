@@ -8,7 +8,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class CategoryRequest implements Serializable {
-    private int categoryId;
+    private Long categoryId;
     private String categoryName;
     private Boolean categoryStatus;
 }
