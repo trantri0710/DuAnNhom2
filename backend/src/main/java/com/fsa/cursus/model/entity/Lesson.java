@@ -29,6 +29,9 @@ public class Lesson implements Serializable {
   @Column(name = "duration")  // Đơn vị: phút
   private int duration;
 
+  @Column(name = "status")
+  private boolean status;
+
   @ManyToOne
   @JoinColumn(name = "chapter_id")  // Khóa ngoại liên kết với bảng Chapter
   private Chapter chapter;
