@@ -5,6 +5,7 @@ import com.fsa.cursus.model.entity.Account;
 import com.fsa.cursus.model.entity.Chapter;
 import com.fsa.cursus.model.entity.Course;
 import com.fsa.cursus.model.mapper.ChapterMapper;
+import com.fsa.cursus.model.request.ChapterRequest;
 import com.fsa.cursus.model.response.ApiResponse;
 import com.fsa.cursus.security.CustomUserDetails;
 import com.fsa.cursus.service.ChapterService;
@@ -39,12 +40,17 @@ public class ChapterController {
         Pageable pageable = PageRequest.of(currentPage -1, size);
         Page<Chapter> chapterPage = chapterService.getAllChapters(pageable);
 
-        // Tạo đối tượng ApiResponse để trả về kết quả
-        ApiResponse apiResponse = new ApiResponse();
-        apiResponse.ok(chapterPage.getContent());
-        apiResponse.setPaginationMetadata(chapterPage.getTotalElements(), chapterPage.getTotalPages(), currentPage, size);
-        // Trả về phản hồi với trạng thái HTTP OK (200)
-        return new ResponseEntity<>(apiResponse, HttpStatus.OK);
+
+        ApiResponse response = new ApiResponse();
+
+        response.ok("OK", chapterMapper.convertToDTO(chapterPage.getContent()));
+        response.setPaginationMetadata(chapterPage.getTotalElements(),
+                chapterPage.getTotalPages(),
+                chapterPage.getNumber(),
+                chapterPage.getSize());
+
+        return ResponseEntity.ok(response);  // Trả về danh sách khóa học dưới dạng JSON
+
     }
 
     // Lấy thông tin theo chapter ID
@@ -66,34 +72,34 @@ public class ChapterController {
 
     // Tạo mới thông tin chapter
     @PostMapping
-    public ResponseEntity createChapter(@Valid @RequestBody Chapter chapter,
+    public ResponseEntity createAndUpdateChapter(@Valid @RequestBody ChapterRequest request,
                                      BindingResult bindingResult){
         // Nếu có lỗi
         if (bindingResult.hasErrors()){
             return new ResponseEntity<>("Lỗi nhập liệu", HttpStatus.BAD_REQUEST);
         }
         // Dùng service để lưu Chapter mới vào csdl
-        Chapter result = chapterService.saveChapter(chapter);
+        Chapter result = chapterService.saveChapter(request);
         // Trả về Chapter mới tạo với trạng thái 200
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    // Cập nhật thông tin của chapter
-    @PutMapping
-    public ResponseEntity<Chapter> updateChapter(@RequestBody Chapter chapter, @PathVariable Long chapterId){
-        Chapter result = chapterService.getChapterById(chapterId);
-        if (result == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-        result.setChapterId(chapter.getChapterId());
-        result.setTitle(chapter.getTitle());
-        result.setDescription(chapter.getDescription());
-        result.setLessons(chapter.getLessons());
-        result.setCourse(chapter.getCourse());
-
-        chapterService.saveChapter(result);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+//    // Cập nhật thông tin của chapter
+//    @PutMapping
+//    public ResponseEntity<Chapter> updateChapter(@RequestBody ChapterRequest chapter, @PathVariable Long chapterId){
+//        Chapter result = chapterService.getChapterById(chapterId);
+//        if (result == null) {
+//            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//        }
+//        result.setChapterId(chapter.getChapterId());
+//        result.setTitle(chapter.getTitle());
+//        result.setDescription(chapter.getDescription());
+//        result.setLessons(chapter.getLessons());
+//        result.setCourse(chapter.getCourse());
+//
+//        chapterService.saveChapter(result);
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
 
     @DeleteMapping(value = "/{chapterId}")
     public ResponseEntity<Chapter> deleteChapter(@PathVariable Long chapterId){
