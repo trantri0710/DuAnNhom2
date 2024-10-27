@@ -1,5 +1,6 @@
 package com.fsa.cursus.model.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,5 +15,9 @@ public class CourseRequest implements Serializable {
     private String name;
     private String description;
     private String image;
+    private String summary;
+    private int totalDuration;
+    private double price;
 
+    private Long teacherId;
 }

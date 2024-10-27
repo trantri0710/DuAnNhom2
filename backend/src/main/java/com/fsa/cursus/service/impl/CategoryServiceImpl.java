@@ -1,13 +1,10 @@
-package com.fsa.cursus.service.Impl;
+package com.fsa.cursus.service.impl;
 import com.fsa.cursus.model.entity.Category;
 import com.fsa.cursus.model.request.CategoryRequest;
 import com.fsa.cursus.repository.CategoryRepository;
 import com.fsa.cursus.service.CategoryService;
-import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -22,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryRequest.getCategoryId() == 0) {
             category = new Category();
         }else {
-            category = categoryRepository.getOne(categoryRequest.getCategoryId());
+            category = categoryRepository.getById(categoryRequest.getCategoryId());
         }
 
         category.setCategoryName(categoryRequest.getCategoryName());
@@ -32,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategoryById(int id) {
+    public Category getCategoryById(Long id) {
         return categoryRepository.findById(id).orElse(null);
     }
 
@@ -42,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(int id) {
+    public void deleteCategory(Long id) {
 
         Category category = categoryRepository.findById(id).orElse(null);
 

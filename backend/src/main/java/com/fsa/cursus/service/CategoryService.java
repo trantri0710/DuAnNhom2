@@ -7,9 +7,9 @@ public interface CategoryService {
 
     Category saveCategory(CategoryRequest categoryRequest);
 
-    Category getCategoryById(int id);
+    Category getCategoryById(Long id);
 
     Category updateCategory(Category category);
 
-    void deleteCategory(int id);
+    void deleteCategory(Long id);
 }

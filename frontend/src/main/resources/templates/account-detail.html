@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html layout:decorate="~{shared/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Account Detail</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Account Detail</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/account/list">Account List</a></li>
+            <li class="breadcrumb-item active">Account Detail</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Account Information</h3>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered">
+                <tbody>
+                <tr>
+                  <th>Username</th>
+                  <td th:text="${account.username}"></td>
+                </tr>
+                <tr>
+                  <th>Full Name</th>
+                  <td th:text="${account.fullName}"></td>
+                </tr>
+                <tr>
+                  <th>Role</th>
+                  <td th:text="${account.role}"></td>
+                </tr>
+                <tr>
+                  <th>Status</th>
+                  <td>
+                    <span th:classappend="${account.status == true ? 'badge badge-success' : 'badge badge-danger'}"
+                     th:text="${account.status == true ? 'Active' : 'Inactive'}"></span>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <div class="form-group mt-3">
+                <a class="btn btn-warning" th:href="@{'/account/update/' + ${account.accountId}}">Edit Account</a>
+                <a class="btn btn-secondary" href="/account/list">Back to List</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>
