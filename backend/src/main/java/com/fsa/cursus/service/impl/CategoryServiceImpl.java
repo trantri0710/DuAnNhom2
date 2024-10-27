@@ -19,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryRequest.getCategoryId() == 0) {
             category = new Category();
         }else {
-            category = categoryRepository.getOne(categoryRequest.getCategoryId());
+            category = categoryRepository.getById(categoryRequest.getCategoryId());
         }
 
         category.setCategoryName(categoryRequest.getCategoryName());
@@ -29,7 +29,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category getCategoryById(int id) {
+    public Category getCategoryById(Long id) {
         return categoryRepository.findById(id).orElse(null);
     }
 
@@ -39,7 +39,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteCategory(int id) {
+    public void deleteCategory(Long id) {
 
         Category category = categoryRepository.findById(id).orElse(null);
 
