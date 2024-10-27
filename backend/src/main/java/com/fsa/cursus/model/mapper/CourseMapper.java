@@ -38,9 +38,7 @@ public class CourseMapper {
             CategoryResponse categoryResponse = new CategoryResponse();
             categoryResponse.setCategoryId(category.getCategoryId());
             categoryResponse.setCategoryName(category.getCategoryName());
-
-            courseResponse.setCategory(categoryResponse);
-
+            categoryResponse.setCategoryStatus(category.getCategoryStatus());
         }
         return courseResponse;
     }

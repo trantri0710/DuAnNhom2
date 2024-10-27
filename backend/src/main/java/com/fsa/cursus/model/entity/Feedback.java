@@ -16,15 +16,10 @@ import lombok.Setter;
 @Table(name = "feedback")
 public class Feedback {
 
-  /*
-   *
-   * Attributes
-   *
-   * */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "feedbackId")
-  private Long feedbackId;
+  private int feedbackId;
 
   @NotBlank
   @Column(name = "description")
@@ -34,11 +29,6 @@ public class Feedback {
   @Column(name = "rating")
   private int rating;
 
-  /*
-   *
-   * Relations
-   *
-   * */
   @ManyToOne
   @JoinColumn(name = "course_id")
   private Course course;
