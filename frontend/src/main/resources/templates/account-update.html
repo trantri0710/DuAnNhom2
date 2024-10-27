@@ -43,12 +43,14 @@
                             <form th:action="${isUpdate ? '/account/update/' + account.accountId : '/account/save'}"
                                   method="post"
                                   th:object="${account}">
-                                <input type="hidden" th:field="*{accountId}"/> <!-- Hidden input for accountId -->
 
                                 <div class="form-group">
                                     <label for="username">Username</label>
                                     <input type="text" class="form-control" id="username" placeholder="Enter username"
                                            th:field="*{username}" required>
+                                    <div th:if="${#fields.hasErrors('username')}" class="text-danger">
+                                        <span th:errors="*{username}">Username Error</span>
+                                    </div>
                                 </div>
 
                                 <div class="form-group" th:if="${!isUpdate}">
@@ -56,12 +58,18 @@
                                     <input type="password" class="form-control" id="password"
                                            placeholder="Enter password"
                                            th:field="*{password}" required>
+                                    <div th:if="${#fields.hasErrors('password')}" class="text-danger">
+                                        <span th:errors="*{password}">Password Error</span>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="fullName">Full Name</label>
                                     <input type="text" class="form-control" id="fullName" placeholder="Enter full name"
                                            th:field="*{fullName}" required>
+                                    <div th:if="${#fields.hasErrors('fullName')}" class="text-danger">
+                                        <span th:errors="*{fullName}">Full Name Error</span>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -72,6 +80,9 @@
                                         <option value="INSTRUCTOR">Instructor</option>
                                         <option value="STUDENT">Student</option>
                                     </select>
+                                    <div th:if="${#fields.hasErrors('role')}" class="text-danger">
+                                        <span th:errors="*{role}">Role Error</span>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">
@@ -80,6 +91,9 @@
                                         <option value="true">Active</option>
                                         <option value="false">Inactive</option>
                                     </select>
+                                    <div th:if="${#fields.hasErrors('status')}" class="text-danger">
+                                        <span th:errors="*{status}">Status Error</span>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">

@@ -9,8 +9,8 @@ import org.example.frontend.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,75 +49,74 @@ public class AccountController {
             return "account-list";
         } catch (Exception ex) {
             ex.printStackTrace();
-            model.addAttribute("error", "An error occurred while fetching account data.");
             return "error";
         }
     }
 
-
-    // post new account
     @PostMapping("/save")
-    public String addAccount(@ModelAttribute AccountRequest account, Model model, HttpSession session) {
+    public String addAccount(@ModelAttribute AccountRequest account, BindingResult bindingResult, Model model, HttpSession session) {
         try {
             AuthResponse userLogin = (AuthResponse) session.getAttribute("userLogin");
             if (userLogin == null) {
                 return "redirect:/login";
             }
+
+            if (bindingResult.hasErrors()) {
+                return "account-update"; // Return to the form if there are validation errors
+            }
+
             ApiResponse apiResponse = accountService.addAccount(account, userLogin.getAccessToken());
             if (apiResponse != null && apiResponse.getStatus().equals("SUCCESS")) {
                 return "redirect:/account/list";
             }
-            model.addAttribute("error", "An error occurred while adding account.");
-            return "error";
+            return "error"; // Return error view if adding account fails
         } catch (Exception ex) {
             ex.printStackTrace();
-            model.addAttribute("error", "An error occurred while adding account.");
             return "error";
         }
     }
 
-    // Add new account
     @GetMapping("/add")
     public String addAccount(Model model) {
         model.addAttribute("account", new AccountResponse());
-        model.addAttribute("isUpdate", false); // Indicate that this is for adding a new account
-        return "account-update"; // The shared view for both add and update
+        model.addAttribute("isUpdate", false);
+        return "account-update"; // Shared view for both add and update
     }
 
-    // Update account
     @GetMapping("/update/{accountId}")
     public String updateAccount(@PathVariable Long accountId, Model model, HttpSession session) {
         try {
             AuthResponse userLogin = (AuthResponse) session.getAttribute("userLogin");
             if (userLogin == null) {
-                return "redirect:/login"; // Redirect to login if user is not authenticated
+                return "redirect:/login";
             }
 
             ApiResponse<AccountResponse> apiResponse = accountService.getAccountById(accountId, userLogin.getAccessToken());
             if (apiResponse != null) {
                 model.addAttribute("account", apiResponse.getPayload());
-                model.addAttribute("isUpdate", true); // Indicate that this is for updating an account
-                return "account-update"; // The shared view for both add and update
+                model.addAttribute("isUpdate", true);
+                return "account-update"; // Shared view for both add and update
             }
 
-            model.addAttribute("error", "An error occurred while fetching account data.");
-            return "error";
+            return "error"; // Return error view if fetching account data fails
         } catch (Exception ex) {
             ex.printStackTrace();
-            model.addAttribute("error", "An error occurred while fetching account data.");
             return "error";
         }
     }
 
     @PostMapping("/update/{accountId}")
-    public String updateAccount(@PathVariable Long accountId, @ModelAttribute AccountRequest account, Model model, HttpSession session) {
+    public String updateAccount(@PathVariable Long accountId, @ModelAttribute AccountRequest account, BindingResult bindingResult, Model model, HttpSession session) {
         try {
             AuthResponse userLogin = (AuthResponse) session.getAttribute("userLogin");
             if (userLogin == null) {
-                return "redirect:/login"; // Redirect to login if user is not authenticated
+                return "redirect:/login";
             }
 
-            // Set the account ID in the account request object (if not already set in the form)
+            if (bindingResult.hasErrors()) {
+                return "account-update"; // Return to the form if there are validation errors
+            }
+
             account.setAccountId(accountId);
 
             ApiResponse apiResponse = accountService.updateAccount(account, userLogin.getAccessToken());
@@ -125,11 +124,9 @@ public class AccountController {
                 return "redirect:/account/list";
             }
 
-            model.addAttribute("error", "An error occurred while updating the account.");
-            return "error";
+            return "error"; // Return error view if updating account fails
         } catch (Exception ex) {
             ex.printStackTrace();
-            model.addAttribute("error", "An error occurred while updating the account.");
             return "error";
         }
     }
@@ -141,21 +138,16 @@ public class AccountController {
             if (userLogin == null) {
                 return "redirect:/login";
             }
-            try {
-                ApiResponse<AccountResponse> apiResponse = accountService.getAccountById(accountId, userLogin.getAccessToken());
-                if (apiResponse != null) {
-                    model.addAttribute("account", apiResponse.getPayload());
-                    return "account-detail";
-                }
-                model.addAttribute("error", "An error occurred while fetching account data.");
-                return "error";
-            } catch (HttpClientErrorException.Forbidden ex) {
-                model.addAttribute("error", "You do not have permission to access this resource.");
-                return "error";
+
+            ApiResponse<AccountResponse> apiResponse = accountService.getAccountById(accountId, userLogin.getAccessToken());
+            if (apiResponse != null) {
+                model.addAttribute("account", apiResponse.getPayload());
+                return "account-detail";
             }
+
+            return "error"; // Return error view if fetching account data fails
         } catch (Exception ex) {
             ex.printStackTrace();
-            model.addAttribute("error", "An error occurred while fetching account data.");
             return "error";
         }
     }

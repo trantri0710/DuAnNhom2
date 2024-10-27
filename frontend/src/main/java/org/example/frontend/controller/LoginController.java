@@ -26,7 +26,6 @@ public class LoginController {
         LoginRequest loginRequest = new LoginRequest();
         model.addAttribute("user", loginRequest);
         model.addAttribute("error", null);
-
         return "login";
     }
 
@@ -39,7 +38,7 @@ public class LoginController {
         }
 
         ApiResponse<AuthResponse> apiResponse = accountService.login(loginRequest);
-        if (apiResponse == null) {
+        if (apiResponse == null || apiResponse.getPayload() == null) {
             model.addAttribute("user", loginRequest);
             model.addAttribute("error", "The username or password is incorrect.");
             return "login";
@@ -51,6 +50,6 @@ public class LoginController {
         // Store JWT in session
         session.setAttribute("userLogin", authResponse);
 
-        return "redirect:/home";
+        return "redirect:/home"; // Redirect to home after successful login
     }
 }

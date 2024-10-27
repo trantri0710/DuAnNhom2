@@ -21,9 +21,9 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // Áp dụng cho các URL trong danh sách
+        // Apply JwtAuthenticationFilter for all URLs except /login and /error/**
         registry.addInterceptor(securityInterceptor)
-                .addPathPatterns("/instructor/**", "/admin/**");
+                .addPathPatterns("/**") // Apply to all paths
+                .excludePathPatterns("/login", "/error/**"); // Exclude specific paths
     }
-
 }

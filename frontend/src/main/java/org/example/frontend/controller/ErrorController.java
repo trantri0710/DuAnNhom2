@@ -13,4 +13,5 @@ public class ErrorController {
     public String viewAccessDenied(Model model) {
         return "access-denied";
     }
+
 }

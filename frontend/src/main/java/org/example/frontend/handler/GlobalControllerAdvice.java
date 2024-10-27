@@ -17,4 +17,5 @@ public class GlobalControllerAdvice {
             model.addAttribute("userRole", authResponse.getRole());
         }
     }
+
 }

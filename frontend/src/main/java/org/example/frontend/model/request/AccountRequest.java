@@ -12,6 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountRequest implements Serializable {
+
     private Long accountId;
 
     @NotBlank(message = "Username is required.")

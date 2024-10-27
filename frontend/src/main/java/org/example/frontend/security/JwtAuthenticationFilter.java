@@ -4,6 +4,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.example.frontend.model.response.AuthResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -16,46 +18,40 @@ public class JwtAuthenticationFilter implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
+        HttpSession session = request.getSession(false); // Do not create a new session if none exists
 
-        // Lấy session từ request
-        HttpSession session = httpRequest.getSession(false); // Không tạo session mới nếu chưa có
+        // Redirect to login if session does not exist
         if (session == null) {
-            // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
             response.sendRedirect("/login");
             return false;
         }
 
-        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        // Check if the user is logged in
         AuthResponse userLogin = (AuthResponse) session.getAttribute("userLogin");
-        if (userLogin != null) {
-            // Lấy token từ header
-            String token = userLogin.getAccessToken();
-
-            // Xác thực token
-            if (token == null || !jwtUtil.isTokenValid(token, userLogin.getUsername())) {
-                return false;
-            }
-
-            // Kiểm tra quyền truy cập
-            String requestURI = request.getRequestURI();
-            String userRole = userLogin.getRole();
-
-            if ((requestURI.startsWith("/admin") && !userRole.equals("ADMIN")) ||
-                    (requestURI.startsWith("/student") && !userRole.equals("STUDENT")) ||
-                    (requestURI.startsWith("/instructor") && !userRole.equals("INSTRUCTOR"))) {
-                // Nếu không có quyền, trả về trang lỗi (ví dụ: trang 401 Unauthorized)
-                response.sendRedirect("/error/unauthorized");
-                return false;
-            }
-
-            return true;
+        if (userLogin == null) {
+            response.sendRedirect("/login");
+            return false;
         }
 
-        // Nếu chưa đăng nhập, chuyển hướng đến trang đăng nhập
-        response.sendRedirect("/login");
-        return false;
-    }
+        // Get token and validate it
+        String token = userLogin.getAccessToken();
+        if (token == null || !jwtUtil.isTokenValid(token, userLogin.getUsername())) {
+            response.sendRedirect("/login");
+            return false;
+        }
 
+        // Check access permissions
+        String requestURI = request.getRequestURI();
+        String userRole = userLogin.getRole();
+
+        // Allow access for ADMIN and INSTRUCTOR only
+        if (userRole.equals("ADMIN") || userRole.equals("INSTRUCTOR")) {
+            return true; // Allow access
+        }
+
+        // Redirect to unauthorized page for any other roles and remove session
+        session.removeAttribute("userLogin");
+        response.sendRedirect("/error/unauthorized");
+        return false; // Deny access
+    }
 }

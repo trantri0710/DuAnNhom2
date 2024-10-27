@@ -12,4 +12,5 @@ public interface AccountService {
     ApiResponse getAccountById(Long accountId, String accessToken);
     ApiResponse updateAccount(AccountRequest accountRequest, String accessToken);
     ApiResponse addAccount(AccountRequest accountRequest, String accessToken);
+
 }
