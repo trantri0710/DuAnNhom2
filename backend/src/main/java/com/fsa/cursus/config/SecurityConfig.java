@@ -33,7 +33,8 @@ public class SecurityConfig {
             "/api/public",
             "/api/auth/**",
             "/api/courses",
-            "/api/courses/id/*"
+            "/api/courses/id/*",
+            "/api/chapters/**",
     };
 
     @Autowired

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html layout:decorate="~{shared/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${isUpdate ? 'Update Account' : 'Add Account'}"></title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 th:text="${isUpdate ? 'Update Account' : 'Add New Account'}"></h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="/">Home</a></li>
+                        <li class="breadcrumb-item"><a href="/account/list">Account List</a></li>
+                        <li class="breadcrumb-item active"
+                            th:text="${isUpdate ? 'Update Account' : 'Add Account'}"></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"
+                                th:text="${isUpdate ? 'Update Account Information' : 'Account Information'}"></h3>
+                        </div>
+                        <div class="card-body">
+                            <form th:action="${isUpdate ? '/account/update/' + account.accountId : '/account/save'}"
+                                  method="post"
+                                  th:object="${account}">
+                                <input type="hidden" th:field="*{accountId}"/> <!-- Hidden input for accountId -->
+
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" id="username" placeholder="Enter username"
+                                           th:field="*{username}" required>
+                                </div>
+
+                                <div class="form-group" th:if="${!isUpdate}">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password"
+                                           placeholder="Enter password"
+                                           th:field="*{password}" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="fullName">Full Name</label>
+                                    <input type="text" class="form-control" id="fullName" placeholder="Enter full name"
+                                           th:field="*{fullName}" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="role">Role</label>
+                                    <select class="form-control" id="role" th:field="*{role}" required>
+                                        <option value="">Select Role</option>
+                                        <option value="ADMIN">Admin</option>
+                                        <option value="INSTRUCTOR">Instructor</option>
+                                        <option value="STUDENT">Student</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select class="form-control" id="status" th:field="*{status}" required>
+                                        <option value="true">Active</option>
+                                        <option value="false">Inactive</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary"
+                                            th:text="${isUpdate ? 'Update Account' : 'Save Account'}"></button>
+                                    <a class="btn btn-secondary" href="/account/list">Cancel</a>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

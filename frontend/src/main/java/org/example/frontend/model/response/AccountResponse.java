@@ -9,5 +9,9 @@ import java.io.Serializable;
 @Setter
 public class AccountResponse implements Serializable {
     private Long accountId;
+    private String password;
     private String fullName;
+    private String username;
+    private String role;
+    private boolean status;
 }

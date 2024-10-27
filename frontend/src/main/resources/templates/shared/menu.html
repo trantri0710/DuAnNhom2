@@ -35,23 +35,23 @@
 
                 <li th:if="${userRole != 'INSTRUCTOR'}" class="nav-item has-treeview">
                     <a class="nav-link" href="#">
-                        <i class="nav-icon fas fa-copy"></i>
+                        <i class="nav-icon fas fa-user"></i>
                         <p>
-                            User
+                            Account
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/list">
+                            <a class="nav-link" href="/account/list">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>List User</p>
+                                <p>List Account</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/user/add">
+                            <a class="nav-link" href="/account/add">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Add User</p>
+                                <p>Add Account</p>
                             </a>
                         </li>
                     </ul>
