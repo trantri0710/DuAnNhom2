@@ -11,7 +11,8 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterRequest implements Serializable {
+public class AccountRequest implements Serializable {
+    private Long accountId;
 
     @NotBlank(message = "Username is required.")
     private String username;
@@ -19,8 +20,8 @@ public class RegisterRequest implements Serializable {
     @NotBlank(message = "Password is required.")
     private String password;
 
-    @NotBlank(message = "Fullname is required.")
-    private String fullname;
+    @NotBlank(message = "Full name is required.")
+    private String fullName;
 
     @NotBlank(message = "Status is required.")
     private boolean status;

@@ -4,7 +4,11 @@ import com.fsa.cursus.model.entity.Account;
 import com.fsa.cursus.repository.AccountRepository;
 import com.fsa.cursus.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -22,4 +26,23 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.save(account);
     }
 
+    @Override
+    public Page<Account> getAllAccount(Pageable pageable) {
+        return accountRepository.findAll(pageable);
+    }
+
+    @Override
+    public Account getAccountById(Long accountId) {
+        Optional<Account> accountOptional = accountRepository.findById(accountId);
+        if (accountOptional.isPresent()) {
+            return accountOptional.get();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Long countAllAccount() {
+        return accountRepository.count();
+    }
 }

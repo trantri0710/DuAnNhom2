@@ -1,28 +1,33 @@
 package org.example.frontend.controller;
 
-import jakarta.servlet.http.HttpSession;
+import org.example.frontend.model.response.ApiResponse;
 import org.example.frontend.model.response.AuthResponse;
+import org.example.frontend.service.AccountService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping(value = {"", "/", "/home"})
 public class HomeController {
 
-    @GetMapping
-    public String homePage(HttpSession session, Model model) {
-        AuthResponse authResponse = (AuthResponse) session.getAttribute("userLogin");
+    @Autowired
+    private AccountService accountService;
 
-        if (authResponse == null) {
+    @GetMapping
+    public String homePage(Model model, HttpSession session) {
+        AuthResponse userLogin = (AuthResponse) session.getAttribute("userLogin");
+        if (userLogin != null) {
+            ApiResponse accountCountResponse = accountService.countAllAccounts(userLogin.getAccessToken());
+            Integer count = (Integer) accountCountResponse.getPayload();
+            model.addAttribute("accountCount", count);
+        } else {
             return "redirect:/login";
         }
-
-        String role = authResponse.getRole();
-        String username = authResponse.getUsername();
-        model.addAttribute("userRole", role);
-        model.addAttribute("userName", username);
         return "dashboard";
     }
 }

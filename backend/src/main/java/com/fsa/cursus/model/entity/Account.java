@@ -15,11 +15,6 @@ import java.util.Set;
 @Table(name = "accounts")
 public class Account implements Serializable {
 
-  /*
-  *
-  * Attributes
-  *
-  * */
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "account_id")
@@ -40,11 +35,7 @@ public class Account implements Serializable {
   @Column(name = "status")
   private boolean status;
 
-  /*
-  *
-  * Relations
-  *
-  * */
   @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
   private Set<Feedback> feedbacks = new HashSet<>();
+
 }
