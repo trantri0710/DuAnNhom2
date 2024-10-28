@@ -99,6 +99,46 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public ApiResponse requestResetPassword(String email) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL_ACCOUNT + "/request-reset-password").queryParam("email", email);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        try {
+            ResponseEntity<ApiResponse> responseEntity = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity, ApiResponse.class);
+            return responseEntity.getBody();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public ApiResponse resetPassword(String token, String newPassword) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("newPassword", newPassword);
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(API_URL_ACCOUNT + "/reset-password").queryParam("token", token).queryParam("newPassword", newPassword);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        try {
+            ResponseEntity<ApiResponse> responseEntity = restTemplate.exchange(builder.toUriString(), HttpMethod.POST, entity, ApiResponse.class);
+            return responseEntity.getBody();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public ApiResponse countAllAccounts(String accessToken) {
         HttpHeaders headers = createAuthHeaders(accessToken);
         HttpEntity<String> entity = new HttpEntity<>(headers);

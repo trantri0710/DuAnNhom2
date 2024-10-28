@@ -42,6 +42,10 @@ dependencies {
 	testImplementation("org.springframework.security:spring-security-test:6.3.4")
 	implementation("org.springframework.boot:spring-boot-starter-security:3.3.4")
 	implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.2.RELEASE")
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+	implementation("org.springframework.boot:spring-boot-starter-mail")
+
+
 
 //	implementation("org.springdoc:springdoc-openapi-data-rest:1.7.0")
 //	implementation("org.springdoc:springdoc-openapi-security:1.7.0")

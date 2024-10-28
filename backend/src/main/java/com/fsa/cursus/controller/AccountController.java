@@ -87,6 +87,24 @@ public class AccountController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/request-reset-password")
+    public ResponseEntity<ApiResponse> requestResetPassword(@RequestParam String email) {
+        accountService.resetPassword(email);
+        return ResponseEntity.ok(createApiResponse("Password reset link sent successfully", null));
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<ApiResponse> resetPassword(@RequestParam String token, @RequestParam String newPassword) {
+        Account account = accountService.findByResetToken(token);
+        if (account == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(createApiResponse("Invalid token", null));
+        }
+        account.setPassword(passwordEncoder.encode(newPassword));  // Hash the new password
+        account.setResetToken(null);                               // Clear the reset token after use
+        accountService.saveOrUpdate(account);
+        return ResponseEntity.ok(createApiResponse("Password reset successfully", null));
+    }
+
     private ApiResponse createApiResponse(String message, Object data) {
         ApiResponse response = new ApiResponse();
         response.ok(message, data);

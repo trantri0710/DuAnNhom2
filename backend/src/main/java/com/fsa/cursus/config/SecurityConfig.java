@@ -26,7 +26,7 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final UserDetailsService userDetailsService;
 
-    private static final String[] ENDPOINT_WHITELIST = {"/v3/api-docs/**", "/swagger-ui/**", "/api/public", "/api/auth/**", "/api/courses", "/api/courses/id/*", "/api/chapters/**"};
+    private static final String[] ENDPOINT_WHITELIST = {"/v3/api-docs/**", "/swagger-ui/**", "/api/public", "/api/auth/**", "/api/courses", "/api/courses/id/*", "/api/chapters/**", "/api/accounts/request-reset-password/**", "/api/accounts/reset-password/**"};
 
     public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter, UserDetailsService userDetailsService) {
         this.jwtAuthFilter = jwtAuthFilter;

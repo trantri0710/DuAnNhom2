@@ -23,7 +23,7 @@ public class AppConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         // Apply JwtAuthenticationFilter for all URLs except for login, error, and static resources
-        registry.addInterceptor(securityInterceptor).addPathPatterns("/**").excludePathPatterns("/login", "/error/**", "/webjars/**", "/css/**", "/js/**", "/img/**", "/fonts/**, /favicon.ico");
+        registry.addInterceptor(securityInterceptor).addPathPatterns("/**").excludePathPatterns("/login", "/error/**", "/webjars/**", "/css/**", "/js/**", "/img/**", "/fonts/**", "/favicon.ico", "/account/reset-password", "/reset-password/**", "/account/request-reset-password", "/request-reset-password/**");
     }
 
     @Override

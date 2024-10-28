@@ -15,27 +15,32 @@ import java.util.Set;
 @Table(name = "accounts")
 public class Account implements Serializable {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "account_id")
-  private Long accountId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "account_id")
+    private Long accountId;
 
-  @Column(name = "full_name")
-  private String fullName;
+    @Column(name = "email", unique = true)
+    private String email;
 
-  @Column(name = "username", unique = true)
-  private String username;
+    @Column(name = "full_name")
+    private String fullName;
 
-  @Column(name = "password", nullable = false)
-  private String password;
+    @Column(name = "username", unique = true)
+    private String username;
 
-  @Column(name = "role", nullable = false)
-  private String role;
+    @Column(name = "password", nullable = false)
+    private String password;
 
-  @Column(name = "status")
-  private boolean status;
+    @Column(name = "role", nullable = false)
+    private String role;
 
-  @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-  private Set<Feedback> feedbacks = new HashSet<>();
+    @Column(name = "status")
+    private boolean status;
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    private Set<Feedback> feedbacks = new HashSet<>();
+
+    @Column(name = "reset_token")
+    private String resetToken;
 }

@@ -151,4 +151,47 @@ public class AccountController {
             return "error";
         }
     }
+
+    @GetMapping("/reset-password")
+    public String resetPasswordForm(@RequestParam(required = false) String token, Model model) {
+        if (token != null && !token.isEmpty()) {
+            model.addAttribute("token", token);
+            return "new-password"; // Return view for entering new password
+        }
+        return "reset-password"; // Return to reset-password view if no token is present
+    }
+
+    @PostMapping("/request-reset-password")
+    public String requestResetPassword(@RequestParam String email, Model model) {
+        try {
+            ApiResponse apiResponse = accountService.requestResetPassword(email);
+            if (apiResponse != null && apiResponse.getStatus().equals("SUCCESS")) {
+                model.addAttribute("success", "Reset password link has been sent to your email.");
+                return "reset-password"; // Return to reset-password view with success message
+            }
+            model.addAttribute("error", "Failed to send reset password link.");
+            return "reset-password"; // Return to reset-password view with error message
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            model.addAttribute("error", "An error occurred while sending reset password link.");
+            return "reset-password"; // Return to reset-password view with error message
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public String resetPassword(@RequestParam String token, @RequestParam String newPassword, Model model) {
+        try {
+            ApiResponse apiResponse = accountService.resetPassword(token, newPassword);
+            if (apiResponse != null && apiResponse.getStatus().equals("SUCCESS")) {
+                model.addAttribute("success", "Password reset successfully.");
+                return "new-password"; // Return to reset-password view with success message
+            }
+            model.addAttribute("error", "Failed to reset password.");
+            return "new-password"; // Return to reset-password view with error message
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            model.addAttribute("error", "An error occurred while resetting password.");
+            return "new-password"; // Return to reset-password view with error message
+        }
+    }
 }

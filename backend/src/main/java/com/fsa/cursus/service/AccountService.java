@@ -12,6 +12,7 @@ public interface AccountService {
     Page<Account> getAllAccount(Pageable pageable);
     Account getAccountById(Long accountId);
     Long countAllAccount();
-
+    void resetPassword(String email);
+    Account findByResetToken(String resetToken);
 }
 
