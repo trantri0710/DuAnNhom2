@@ -46,9 +46,12 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course saveCourse(CourseRequest request) {
         Course course = null;
-
+        Account account = new Account();
         if (request.getCourseId() == 0) {
             course = new Course();
+            account.setAccountId(request.getTeacherId());
+            course.setAccount(account);
+            course.setCourseId(0L);
         }else{
             course = getCourseById(request.getCourseId());
         }

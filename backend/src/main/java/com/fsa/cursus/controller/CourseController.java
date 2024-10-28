@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -32,7 +33,7 @@ public class CourseController {
 
     @GetMapping
     public ResponseEntity<ApiResponse> getCourses(@RequestParam(defaultValue = "1") Integer currentPage,
-                                                  @RequestParam(defaultValue = "10") Integer size) {
+                                                  @RequestParam(defaultValue = "5") Integer size) {
 
         Pageable pageable = PageRequest.of(currentPage - 1, size);
         Page<Course> coursePage = courseService.getAllCourses(pageable);
@@ -48,9 +49,10 @@ public class CourseController {
     }
 
     @PreAuthorize("hasAnyRole('INSTRUCTOR', 'ADMIN')")
-    @GetMapping("/account")
+    @GetMapping("/account-courses")
     public ResponseEntity<ApiResponse> getByAccount(@RequestParam(defaultValue = "1") Integer currentPage,
-                                                    @RequestParam(defaultValue = "10") Integer size, Authentication authentication) {
+                                                    @RequestParam(defaultValue = "5") Integer size, Authentication authentication
+                                                    ) {
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         Account account = customUserDetails.getAccount();
 
@@ -59,7 +61,7 @@ public class CourseController {
 
         ApiResponse response = new ApiResponse();
 
-        response.ok("OK", coursePage.getContent());
+        response.ok("OK", courseMapper.toCourse(coursePage.getContent()));
         response.setPaginationMetadata(coursePage.getTotalElements(),
                 coursePage.getTotalPages(),
                 coursePage.getNumber(),
@@ -70,22 +72,57 @@ public class CourseController {
 
     @PreAuthorize("hasAnyRole('INSTRUCTOR', 'ADMIN')")
     @PostMapping
-    public ResponseEntity<ApiResponse> saveCourse(@Valid @RequestBody CourseRequest courseRequest, Authentication authentication,
+    public ResponseEntity<ApiResponse> saveCourse(@RequestBody CourseRequest courseRequest, Authentication authentication,
                                                   BindingResult bindingResult) {
-        // validato
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        Account account = customUserDetails.getAccount();
+
+        courseRequest.setTeacherId(account.getAccountId());
+
+        Course savedCourse = courseService.saveCourse(courseRequest);
+        ApiResponse response = createApiResponse("Course created successfully", courseMapper.toCourse(savedCourse));
+
+
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/detail/{courseId}")
+    public  ResponseEntity<ApiResponse> getByCourseId(@PathVariable Long courseId, Authentication authentication) {
 
         CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
         Account account = customUserDetails.getAccount();
 
-        Course course = courseService.saveCourse(courseRequest);
+        Course course = courseService.getCourseById(courseId);
 
         ApiResponse response = new ApiResponse();
-
         response.ok("OK", courseMapper.toCourse(course));
 
         return ResponseEntity.ok(response);
     }
 
+    private ApiResponse createApiResponse(String message, Object data) {
+        ApiResponse response = new ApiResponse();
+        response.ok(message, data);
+        return response;
+    }
+
+    @PutMapping("/{courseId}")
+    public ApiResponse updateCourse(@PathVariable Long courseId, @RequestBody CourseRequest courseRequest, Authentication authentication) {
+        CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
+        Account account = customUserDetails.getAccount();
+
+        Course updatedCourse = courseService.getCourseById(courseId);
+        updatedCourse.setAccount(account);
+        courseRequest.setCourseId(courseId);
+
+        courseService.saveCourse(courseRequest);
+
+        ApiResponse response = new ApiResponse();
+        response.ok("OK", courseMapper.toCourse(updatedCourse));
 
 
+
+        return response;
+    }
 }
