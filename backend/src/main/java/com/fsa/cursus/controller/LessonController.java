@@ -3,6 +3,7 @@ package com.fsa.cursus.controller;
 
 
 import com.fsa.cursus.model.entity.Lesson;
+import com.fsa.cursus.model.request.LessonRequest;
 import com.fsa.cursus.model.response.ApiResponse;
 import com.fsa.cursus.service.LessonService;
 import jakarta.validation.Valid;
@@ -54,7 +55,7 @@ public class LessonController {
 
     // Tạo mới thông tin Lesson
     @PostMapping
-    public ResponseEntity createLesson(@Valid @RequestBody Lesson lesson,
+    public ResponseEntity createAndUpdateLesson(@Valid @RequestBody LessonRequest lesson,
                                      BindingResult bindingResult){
         // Nếu có lỗi
         if (bindingResult.hasErrors()){
@@ -68,21 +69,9 @@ public class LessonController {
 
     // Cập nhật thông tin của lesson
     @PutMapping
-    public ResponseEntity<Lesson> updateLesson(@RequestBody Lesson lesson, @PathVariable Long lessonId){
-        Lesson result = lessonService.getLessonById(lessonId);
-        if (result == null) {
-            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
-        }
-
-        result.setLessonId(lesson.getLessonId());
-        result.setChapter(lesson.getChapter());
-        result.setTitle(lesson.getTitle());
-        result.setContent(lesson.getContent());
-        result.setVideo(lesson.getVideo());
-        result.setDuration(lesson.getDuration());
-
-        lessonService.saveLesson(result);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseEntity<Lesson> updateLesson(@RequestBody LessonRequest lesson, @PathVariable Long lessonId, BindingResult bindingResult){
+        // gọi lại phương thức create trên
+        return createAndUpdateLesson(lesson, bindingResult);
     }
 
     @DeleteMapping(value = "/{lessonId}")

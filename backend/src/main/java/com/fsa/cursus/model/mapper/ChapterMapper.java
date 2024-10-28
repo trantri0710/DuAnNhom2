@@ -21,7 +21,7 @@ public class ChapterMapper {
         // Gán các giá trị từ entity Chapter vào DTO
         chapterResponse.setChapterId(chapter.getChapterId());
         chapterResponse.setTitle(chapter.getTitle());
-        chapterResponse.setCourse(chapter.getCourse());
+//        chapterResponse.setCourse(chapter.getCourse());
         chapterResponse.setDescription(chapter.getDescription());
         chapterResponse.setLessons(chapter.getLessons());
 

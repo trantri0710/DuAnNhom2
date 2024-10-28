@@ -15,4 +15,6 @@ public class LessonRequest implements Serializable {
     private String video;
     private int duration;
     private boolean status;
+
+    private Long chapterId;
 }

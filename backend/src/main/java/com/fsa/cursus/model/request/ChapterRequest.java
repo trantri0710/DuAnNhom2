@@ -14,7 +14,7 @@ public class ChapterRequest {
     private Long chapterId;
     private String title;
     private String description;
-    private Course course;
 
-    private List<Lesson> lessons = new ArrayList<>();
+    private List<LessonRequest> lessons = new ArrayList<>();
+    private Long courseId;
 }
