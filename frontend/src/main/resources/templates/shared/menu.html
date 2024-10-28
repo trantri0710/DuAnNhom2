@@ -26,14 +26,14 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-accordion="false" data-widget="treeview" role="menu">
 
                 <!-- Other menu items only for non-INSTRUCTOR roles -->
-                <li th:if="${userRole != 'INSTRUCTOR'}" class="nav-item">
+                <li th:if="${userRole == 'ADMIN'}" class="nav-item">
                     <a class="nav-link" href="/">
                         <i class="nav-icon fas fa-th"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
 
-                <li th:if="${userRole != 'INSTRUCTOR'}" class="nav-item has-treeview">
+                <li th:if="${userRole  == 'ADMIN'}" class="nav-item has-treeview">
                     <a class="nav-link" href="#">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
@@ -57,6 +57,7 @@
                     </ul>
                 </li>
 
+                <!-- // add dashboard menu item for STUDENT-->
                 <!-- Contact menu item, always shown for INSTRUCTOR -->
                 <li th:if="${userRole == 'INSTRUCTOR'}" class="nav-item">
                     <a class="nav-link" href="/Course">

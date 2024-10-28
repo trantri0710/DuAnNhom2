@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -21,9 +22,13 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        // Apply JwtAuthenticationFilter for all URLs except /login and /error/**
-        registry.addInterceptor(securityInterceptor)
-                .addPathPatterns("/**") // Apply to all paths
-                .excludePathPatterns("/login", "/error/**"); // Exclude specific paths
+        // Apply JwtAuthenticationFilter for all URLs except for login, error, and static resources
+        registry.addInterceptor(securityInterceptor).addPathPatterns("/**").excludePathPatterns("/login", "/error/**", "/webjars/**", "/css/**", "/js/**", "/img/**", "/fonts/**, /favicon.ico");
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/", "classpath:/resources/", "classpath:/static/img/, classpath:/static/css/, classpath:/static/js/");
     }
 }
