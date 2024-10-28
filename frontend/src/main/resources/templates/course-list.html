@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html layout:decorate="~{shared/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Account List</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Course List</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item active">Course List</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <a class="btn btn-primary" href="/course/add">
+                <i class="fas fa-plus"></i> Add New
+              </a>
+            </div>
+            <div class="card-body">
+              <table id="table-view" class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                <!--chinh sua -->
+                  <th style="width: 150px;">#ID</th>
+                  <th>Course Name</th>
+                  <th>Course Price</th>
+                  <th>Summary</th>
+                  <th>Image</th>
+                  <th>Course Length</th>
+                  <th style="width: 150px;">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="course : ${courseList}">
+                  <td class="text-center" th:text="${course.courseId}"></td>
+                  <td th:text="${course.name}"></td>
+                  <td th:text="${course.price}"></td>
+                  <td th:text="${course.summary}"></td>
+                  <td th:text="${course.image}"></td>
+                  <td th:text="${course.totalDuration}"></td>
+
+                  <td class="d-flex">
+                    <a class="btn btn-info btn-sm mr-1 d-flex align-items-center"
+                       th:href="@{'/course/detail/' + ${course.courseId}}"
+                       title="Detail">
+                      <i class="fas fa-eye mr-1"></i> <span>Detail</span>
+                    </a>
+                    <a class="btn btn-warning btn-sm d-flex align-items-center"
+                       th:href="@{'/course/update/' + ${course.courseId}}"
+                       title="Update">
+                      <i class="fas fa-edit mr-1"></i> <span>Update</span>
+                    </a>
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+              <!-- Pagination -->
+              <nav aria-label="Page navigation example"
+                   th:if="${courseList != null && totalPages != null}"
+                   class="d-flex justify-content-end mt-3">
+                <ul class="pagination">
+                  <li th:class="${currentPage == 1 ? 'page-item disabled' : 'page-item'}">
+                    <a class="page-link"
+                       th:href="@{'/course/list?currentPage=' + ${currentPage - 1} + '&size=' + ${size}}">Previous</a>
+                  </li>
+                  <li th:class="${currentPage == pageNumber ? 'page-item active' : 'page-item'}"
+                      th:each="pageNumber: ${#numbers.sequence(1, totalPages)}">
+                    <a class="page-link"
+                       th:href="@{'/course/list?currentPage=' + ${pageNumber} + '&size=' + ${size}}"
+                       th:text="${pageNumber}">
+                    </a>
+                  </li>
+                  <li class="page-item"
+                      th:class="${currentPage == totalPages ? 'page-item disabled' : 'page-item'}">
+                    <a class="page-link"
+                       th:href="@{'/course/list?currentPage=' + ${currentPage + 1} + '&size=' + ${size}}">Next</a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

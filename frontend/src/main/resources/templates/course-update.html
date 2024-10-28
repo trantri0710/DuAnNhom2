@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html layout:decorate="~{shared/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${isUpdate ? 'Update Account' : 'Add Account'}"></title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1 th:text="${isUpdate ? 'Update Course' : 'Add New Course'}"></h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/account/list">Account List</a></li>
+            <li class="breadcrumb-item active"
+                th:text="${isUpdate ? 'Update Course' : 'Add Course'}"></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title"
+                  th:text="${isUpdate ? 'Update Course Information' : 'Course Information'}"></h3>
+            </div>
+            <div class="card-body">
+              <form th:action="${isUpdate ? '/course/update/' + course.courseId : '/course/save'}"
+                    method="post"
+                    th:object="${course}">
+
+                <div class="form-group">
+                  <label for="courseName">Course name</label>
+                  <input type="text" class="form-control" id="courseName" placeholder="Enter course name"
+                         th:field="*{name}" required>
+                  <div th:if="${#fields.hasErrors('name')}" class="text-danger">
+                    <span th:errors="*{name}">Enter course name</span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="coursePrice">Course price</label>
+                  <input type="text" class="form-control" id="coursePrice" placeholder="Enter course price"
+                         th:field="*{price}" required>
+                  <div th:if="${#fields.hasErrors('price')}" class="text-danger">
+                    <span th:errors="*{price}">Price invalid</span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="courseSummary">Course summary</label>
+                  <input type="text" class="form-control" id="courseSummary" placeholder="Enter course summary"
+                         th:field="*{summary}" required>
+                  <div th:if="${#fields.hasErrors('price')}" class="text-danger">
+                    <span th:errors="*{summary}"></span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="courseDuration">Course duration</label>
+                  <input type="text" class="form-control" id="courseDuration" placeholder="Enter course duration"
+                         th:field="*{totalDuration}" required>
+                  <div th:if="${#fields.hasErrors('price')}" class="text-danger">
+                    <span th:errors="*{totalDuration}"></span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="courseImage">Course image</label>
+                  <input type="text" class="form-control" id="courseImage" placeholder="image"
+                         th:field="*{image}" required>
+                  <div th:if="${#fields.hasErrors('image')}" class="text-danger">
+                    <span th:errors="*{image}"></span>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="courseDescription">Course description</label>
+                  <input type="text" class="form-control" id="courseDescription" placeholder="image"
+                         th:field="*{description}" required>
+                  <div th:if="${#fields.hasErrors('description')}" class="text-danger">
+                    <span th:errors="*{description}"></span>
+                  </div>
+                </div>
+                <input type="hidden" class="form-control"
+                       th:if="${isUpdate}" th:field="${course.courseId}">
+                <input type="hidden" class="form-control"
+                       th:if="${!isUpdate}" name="courseId" th:value="0">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary"
+                          >SAVE</button>
+                  <a class="btn btn-secondary" href="/course/list">Cancel</a>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>

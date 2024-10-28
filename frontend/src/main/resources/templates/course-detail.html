@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html layout:decorate="~{shared/layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Account Detail</title>
+</head>
+
+<body>
+
+<div layout:fragment="content">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Course Detail</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/">Home</a></li>
+            <li class="breadcrumb-item"><a href="/course/list">Course List</a></li>
+            <li class="breadcrumb-item active">Course Detail</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Course Information</h3>
+            </div>
+            <div class="card-body">
+              <table class="table table-bordered">
+                <tbody>
+                <tr>
+                  <th>Course Name</th>
+                  <td th:text="${course.name}"></td>
+                </tr>
+                <tr>
+                  <th>Price</th>
+                  <td th:text="${course.price}"></td>
+                </tr>
+                <tr>
+                  <th>Description</th>
+                  <td th:text="${course.description}"></td>
+                </tr>
+                <tr>
+                  <th>Summary</th>
+                  <td th:text="${course.summary}"></td>
+                </tr>
+                <tr>
+                  <th>Image</th>
+                  <td th:text="${course.image}"></td>
+                </tr>
+                <tr>
+                  <th>Duration</th>
+                  <td th:text="${course.totalDuration}"></td>
+                </tr>
+                </tbody>
+              </table>
+              <div class="form-group mt-3">
+                <a class="btn btn-warning" th:href="@{'/course/update/' + ${course.courseId}}">Edit Course</a>
+                <a class="btn btn-secondary" href="/course/list">Back to List</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+</body>
+</html>
