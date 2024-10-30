@@ -2,6 +2,8 @@ package org.example.frontend.controller;
 
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import org.example.frontend.model.request.AccountRequest;
 import org.example.frontend.model.request.CourseRequest;
 import org.example.frontend.model.response.AccountResponse;
 import org.example.frontend.model.response.ApiResponse;
@@ -116,5 +118,68 @@ public class CourseController {
 
 
 
+
+    @GetMapping("/update/{courseId}")
+    public String updateCourse(@PathVariable Long courseId, Model model, HttpSession session) {
+        try {
+            AuthResponse userLogin = (AuthResponse) session.getAttribute("userLogin");
+            if (userLogin == null) {
+                return "redirect:/login"; // Redirect to login if the user is not logged in
+            }
+            ApiResponse<CourseResponse> apiResponse = courseService.getCourseById(courseId, userLogin.getAccessToken());
+            if (apiResponse != null) {
+                model.addAttribute("course", apiResponse.getPayload());
+                model.addAttribute("isUpdate", true); // Set attribute to indicate this is an update
+                return "course-update"; // Return form for updating
+            }
+            return "error"; // Return error view if fetching course data fails
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "error"; // Return error view in case of an exception
+        }
+    }
+
+    @PostMapping("/update/{courseId}")
+    public String saveUpdatedCourse(@Valid  @ModelAttribute("course") CourseRequest course,
+                                    BindingResult bindingResult,
+                                    Model model,
+                                    HttpSession session) {
+        try {
+            AuthResponse userLogin = (AuthResponse) session.getAttribute("userLogin");
+            if (userLogin == null) {
+                return "redirect:/login";
+            }
+
+            // Check for validation errors
+            if (bindingResult.hasErrors()) {
+                model.addAttribute("isUpdate", true);
+                return "course-update";
+            }
+
+            // Call method to update course information
+            ApiResponse apiResponse = courseService.updateCourse(course, userLogin.getAccessToken());
+            if (apiResponse != null && "SUCCESS".equals(apiResponse.getStatus())) {
+                return "redirect:/course/list";
+            }
+            return "error";
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return "error";
+        }
+    }
+
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
 
